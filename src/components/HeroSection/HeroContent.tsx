@@ -20,10 +20,10 @@ const stagger = {
 
 // ── Per-element entrance ───────────────────────────────────────────────────
 const up = {
-  hidden: { opacity: 0, y: 22, filter: "blur(5px)" },
+  hidden: { opacity: 0, y: 20 },
   visible: {
-    opacity: 1, y: 0, filter: "blur(0px)",
-    transition: { duration: 0.65, ease: "easeOut" as const },
+    opacity: 1, y: 0,
+    transition: { duration: 0.5, ease: "easeOut" as const },
   },
 } as const;
 
