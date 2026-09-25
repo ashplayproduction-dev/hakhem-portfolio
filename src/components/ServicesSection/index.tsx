@@ -27,6 +27,8 @@ import { motion } from "framer-motion";
 import { SERVICES } from "./data";
 import ServiceCard from "./ServiceCard";
 import ServiceModal from "./ServiceModal";
+import ReelsShowcase from "./ReelsShowcase";
+
 
 
 
@@ -96,6 +98,19 @@ export default function ServicesSection() {
         </motion.p>
       </div>
 
+      {/* ── Featured Video Showcase (5 Short-form + 3 Long-form) ───── */}
+      <ReelsShowcase />
+
+      {/* ── Core Service Offerings ─────────────────────────────────── */}
+      <div className="relative z-10 mb-8 text-center">
+        <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+          Editing Capabilities &amp; Formats
+        </h3>
+        <p className="mt-1 text-xs sm:text-sm text-neutral-400">
+          Click any discipline to explore production workflows, tools, and technical delivery specs.
+        </p>
+      </div>
+
       {/* ── Card grid ─────────────────────────────────────────────────────── */}
       {/*
         `whileInView` on the container drives the staggered entrance.
@@ -103,6 +118,7 @@ export default function ServicesSection() {
         The grid itself has no layoutId — only the individual cards do.
       */}
       <motion.div
+
         className="relative z-10 mx-auto grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
         variants={containerVariants}
         initial="hidden"
