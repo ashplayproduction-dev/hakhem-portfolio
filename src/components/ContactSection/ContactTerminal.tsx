@@ -47,6 +47,8 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
   const [inquiryType, setInquiryType] = useState<InquiryType>("Video Editing");
   const [details, setDetails] = useState("");
   const [errors, setErrors] = useState<{ name?: string; email?: string; details?: string }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [copiedMessage, setCopiedMessage] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -75,6 +77,8 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
     if (!isOpen) {
       const t = setTimeout(() => {
         setSubmitted(false);
+        setIsSubmitting(false);
+        setSubmitError(null);
         setErrors({});
         setCopiedMessage(false);
         setCopiedEmail(false);
@@ -108,19 +112,43 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
-    // Attempt to copy to clipboard for convenience
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(formattedBody).catch(() => {});
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "28070792-2986-4f36-95ee-7e8e7dbd57fc",
+          name: name.trim(),
+          email: email.trim(),
+          inquiry_type: inquiryType,
+          message: details.trim(),
+          subject: `Portfolio Inquiry: [${inquiryType}] from ${name.trim()}`,
+          from_name: `${name.trim()} via Hakhem Portfolio`,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setSubmitError(data.message || "Failed to deliver message. Please try again or email Hakhem directly.");
+      }
+    } catch {
+      setSubmitError("Network connection error. Please verify your connection or email directly.");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    // Trigger user's mail client
-    window.location.href = mailtoUrl;
-
-    setSubmitted(true);
   };
 
   const handleCopyMessage = () => {
@@ -210,34 +238,34 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
                     transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
                     className="py-6 text-center"
                   >
-                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400">
-                      <SparklesIcon size={24} />
+                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                      <CheckIcon size={24} />
                     </div>
 
                     <h4 className="text-xl font-bold text-neutral-100">
-                      Inquiry Formatted &amp; Dispatched
+                      Inquiry Dispatched Directly to Hakhem!
                     </h4>
                     <p className="mt-2 text-sm text-neutral-400 max-w-md mx-auto leading-relaxed">
-                      Your default mail application should open with your project details populated. If it didn&apos;t open automatically, use the direct actions below:
+                      Thank you, <span className="text-neutral-200 font-medium">{name}</span>! Your project details have been successfully delivered to Hakhem&apos;s personal inbox. Expect a prompt response within 24 hours.
                     </p>
 
                     <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-                      <a
-                        href={mailtoUrl}
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-5 py-2.5 text-xs sm:text-sm font-semibold text-amber-950 transition-all hover:bg-amber-300 active:scale-[0.97] cursor-pointer"
-                      >
-                        <MailIcon size={16} />
-                        <span>Open Mail Client</span>
-                      </a>
-
                       <button
                         type="button"
                         onClick={handleCopyMessage}
                         className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-700 bg-neutral-800 px-5 py-2.5 text-xs sm:text-sm font-medium text-neutral-200 hover:bg-neutral-750 transition-all cursor-pointer"
                       >
                         {copiedMessage ? <CheckIcon size={16} className="text-amber-400" /> : <SparklesIcon size={16} />}
-                        <span>{copiedMessage ? "Message Copied!" : "Copy Message Body"}</span>
+                        <span>{copiedMessage ? "Summary Copied!" : "Copy Summary"}</span>
                       </button>
+
+                      <a
+                        href={mailtoUrl}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-800 border border-neutral-700 px-5 py-2.5 text-xs sm:text-sm font-medium text-neutral-200 hover:text-white hover:bg-neutral-700 transition-all cursor-pointer"
+                      >
+                        <MailIcon size={16} />
+                        <span>Send Direct Email</span>
+                      </a>
                     </div>
 
                     <div className="mt-4">
@@ -254,7 +282,7 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
                       <button
                         type="button"
                         onClick={onClose}
-                        className="rounded-full border border-neutral-700 bg-neutral-800 px-5 py-1.5 text-xs font-medium text-neutral-300 hover:text-white transition-colors cursor-pointer"
+                        className="rounded-full border border-neutral-700 bg-neutral-800 px-6 py-2 text-xs font-semibold text-neutral-200 hover:text-white hover:bg-neutral-700 transition-colors cursor-pointer"
                       >
                         Close Desk
                       </button>
@@ -268,6 +296,15 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
                     noValidate={false}
                     className="space-y-4"
                   >
+                    {submitError && (
+                      <div className="rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-xs text-rose-300 flex items-start gap-2">
+                        <span className="text-sm leading-none">⚠</span>
+                        <div className="flex-1">
+                          <p className="font-semibold">Unable to dispatch message</p>
+                          <p className="mt-0.5 text-rose-300/80">{submitError}</p>
+                        </div>
+                      </div>
+                    )}
                     {/* Inquiry Type Chips */}
                     <div>
                       <label className="block font-mono text-xs text-neutral-300 mb-2">
@@ -385,10 +422,20 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
                     {/* Submit Button */}
                     <button
                       type="submit"
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 py-3 text-sm font-semibold tracking-wide text-amber-950 transition-all hover:bg-amber-300 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer shadow-md"
+                      disabled={isSubmitting}
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 py-3 text-sm font-semibold tracking-wide text-amber-950 transition-all hover:bg-amber-300 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <SendIcon size={16} />
-                      <span>Prepare &amp; Send Message</span>
+                      {isSubmitting ? (
+                        <>
+                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-950 border-t-transparent" />
+                          <span>Dispatching Inquiry...</span>
+                        </>
+                      ) : (
+                        <>
+                          <SendIcon size={16} />
+                          <span>Prepare &amp; Send Message</span>
+                        </>
+                      )}
                     </button>
 
                     {/* Direct Contact Channels Footer */}
