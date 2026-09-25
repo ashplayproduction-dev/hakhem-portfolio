@@ -17,6 +17,42 @@ export interface PaymentBadge {
   style: string;
 }
 
+export interface SocialLink {
+  id: string;
+  name: string;
+  handle: string;
+  url: string;
+  description: string;
+  color: string;
+}
+
+export const SOCIAL_LINKS: SocialLink[] = [
+  {
+    id: "facebook",
+    name: "Facebook",
+    handle: "Abdul Hakhem Serad",
+    url: "https://facebook.com",
+    description: "Personal & direct messaging",
+    color: "hover:text-[#1877F2] hover:border-[#1877F2]/40",
+  },
+  {
+    id: "instagram",
+    name: "Instagram",
+    handle: "@hakhem",
+    url: "https://instagram.com",
+    description: "Behind the scenes & visual work",
+    color: "hover:text-[#E4405F] hover:border-[#E4405F]/40",
+  },
+  {
+    id: "linkedin",
+    name: "LinkedIn",
+    handle: "Abdul Hakhem R. Serad",
+    url: "https://linkedin.com",
+    description: "Professional background & inquiries",
+    color: "hover:text-[#0A66C2] hover:border-[#0A66C2]/40",
+  },
+];
+
 export interface BadgeGroup {
   groupId: string;
   /** Label rendered above the group */
@@ -25,6 +61,7 @@ export interface BadgeGroup {
   groupIcon: string;
   items: PaymentBadge[];
 }
+
 
 export const BADGE_GROUPS: BadgeGroup[] = [
   {

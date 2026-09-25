@@ -8,7 +8,9 @@
  */
 
 import { motion } from "framer-motion";
-import { TrophyIcon, ArrowRightIcon } from "@/components/icons";
+import { TrophyIcon, ArrowRightIcon, FacebookIcon, InstagramIcon, LinkedInIcon } from "@/components/icons";
+import { SOCIAL_LINKS } from "../ContactSection/data";
+
 
 // ── Stagger container ──────────────────────────────────────────────────────
 const stagger = {
@@ -73,7 +75,7 @@ export default function HeroContent() {
         Helping founders, creators, and brands scale their digital presence through high-retention short-form content, authentic UGC, and narrative-driven Video Sales Letters.
       </motion.p>
 
-      {/* ── CTA buttons ─────────────────────────────────────────── */}
+      {/* ── CTA buttons & Social Quick Icons ─────────────────────── */}
       <motion.div variants={up} className="flex flex-wrap items-center gap-3">
         <a
           href="#experience"
@@ -89,7 +91,32 @@ export default function HeroContent() {
           <TrophyIcon size={14} className="text-amber-400" />
           <span>Track Record</span>
         </a>
+
+        {/* Quick Socials (Direct links) */}
+        <div className="flex items-center gap-2 sm:ml-1">
+          {SOCIAL_LINKS.map((s) => {
+            const Icon =
+              s.id === "facebook"
+                ? FacebookIcon
+                : s.id === "instagram"
+                ? InstagramIcon
+                : LinkedInIcon;
+            return (
+              <a
+                key={s.id}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.name}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-800 bg-neutral-950/70 text-neutral-400 transition-all hover:border-amber-400/50 hover:text-amber-400 hover:bg-neutral-900 active:scale-[0.95]"
+              >
+                <Icon size={15} />
+              </a>
+            );
+          })}
+        </div>
       </motion.div>
+
 
       {/* ── Divider ──────────────────────────────────────────────── */}
       <motion.div variants={up} className="h-px w-full bg-neutral-800/80" />

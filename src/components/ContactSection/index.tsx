@@ -17,7 +17,9 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import ContactTerminal from "./ContactTerminal";
-import { SendIcon } from "@/components/icons";
+import { SOCIAL_LINKS } from "./data";
+import { SendIcon, FacebookIcon, InstagramIcon, LinkedInIcon } from "@/components/icons";
+
 
 /** Bouncy spring matching spec: type spring, bounce 0.4 */
 const MORPH_SPRING = { type: "spring" as const, bounce: 0.4 };
@@ -83,13 +85,62 @@ export default function ContactSection() {
           transition={{ delay: 0.2, duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
           className="mx-auto mt-4 max-w-lg text-base text-neutral-400 leading-relaxed"
         >
-          Direct inquiries for documentary film editing, esports tournament directing, and photojournalism coverage.
+          Direct inquiries for strategic video editing, high-retention content, or collaborative projects.
         </motion.p>
+
+        {/* ── Social Media Channels ──────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.25, duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+          className="mx-auto mt-10 max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-left"
+        >
+          {SOCIAL_LINKS.map((social) => {
+            const Icon =
+              social.id === "facebook"
+                ? FacebookIcon
+                : social.id === "instagram"
+                ? InstagramIcon
+                : LinkedInIcon;
+
+            return (
+              <a
+                key={social.id}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`group relative flex items-center justify-between rounded-2xl border border-neutral-800/80 bg-neutral-900/60 p-4 sm:p-5 transition-all duration-200 hover:bg-neutral-900 hover:shadow-xl hover:shadow-black/60 active:scale-[0.98] ${social.color}`}
+              >
+                <div className="flex items-center gap-3.5">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-neutral-800 bg-neutral-950 text-neutral-300 transition-colors group-hover:text-amber-400 group-hover:border-amber-400/30">
+                    <Icon size={20} />
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-bold text-white transition-colors group-hover:text-amber-300">
+                      {social.name}
+                    </h3>
+                    <p className="text-xs font-mono text-neutral-400">
+                      {social.handle}
+                    </p>
+                    <p className="mt-1 text-[11px] text-neutral-400">
+                      {social.description}
+                    </p>
+                  </div>
+                </div>
+
+                <span className="ml-2 text-neutral-400 transition-all duration-200 group-hover:translate-x-1 group-hover:text-amber-400">
+                  ↗
+                </span>
+              </a>
+            );
+          })}
+        </motion.div>
 
         {/* ─────────────────────────────────────────────────────────────── */}
         {/* THE PILL BUTTON — source of the layoutId morph                 */}
         {/* ─────────────────────────────────────────────────────────────── */}
-        <div className="mt-10 flex justify-center">
+        <div className="mt-12 flex justify-center">
           <motion.div
             animate={{ y: isOpen || shouldReduceMotion ? 0 : [0, -6, 0, 4, 0] }}
             transition={
@@ -111,7 +162,7 @@ export default function ContactSection() {
               aria-controls="contact-terminal"
             >
               <SendIcon size={16} />
-              <span>Start a Collaboration</span>
+              <span>Open Production Desk</span>
             </motion.button>
           </motion.div>
         </div>
@@ -134,6 +185,7 @@ export default function ContactSection() {
           </span>
         </motion.div>
       </section>
+
 
       {/* ── Production Desk modal ────────────────────────────────────────── */}
       <ContactTerminal isOpen={isOpen} onClose={close} />

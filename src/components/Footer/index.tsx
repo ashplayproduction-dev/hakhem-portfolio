@@ -8,6 +8,9 @@
  */
 
 import { motion } from "framer-motion";
+import { FacebookIcon, InstagramIcon, LinkedInIcon } from "@/components/icons";
+import { SOCIAL_LINKS } from "../ContactSection/data";
+
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -33,15 +36,40 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Center: Quick navigation links */}
-        <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-mono text-neutral-400">
-          <a href="#about" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">About</a>
-          <a href="#journey" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Journey</a>
-          <a href="#services" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Services</a>
-          <a href="#experience" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Experience</a>
-          <a href="#gallery" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Gallery</a>
-          <a href="#skills" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Skills</a>
-          <a href="#contact" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Connect</a>
+        {/* Center: Quick navigation links & Social Icons */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-mono text-neutral-400">
+            <a href="#about" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">About</a>
+            <a href="#journey" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Journey</a>
+            <a href="#services" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Services</a>
+            <a href="#experience" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Experience</a>
+            <a href="#gallery" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Gallery</a>
+            <a href="#skills" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Skills</a>
+            <a href="#contact" className="hover:text-neutral-100 transition-colors p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded-md">Connect</a>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {SOCIAL_LINKS.map((s) => {
+              const Icon =
+                s.id === "facebook"
+                  ? FacebookIcon
+                  : s.id === "instagram"
+                  ? InstagramIcon
+                  : LinkedInIcon;
+              return (
+                <a
+                  key={s.id}
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.name}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-800 bg-neutral-900/80 text-neutral-400 transition-colors hover:border-amber-400/40 hover:text-amber-400 hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400"
+                >
+                  <Icon size={15} />
+                </a>
+              );
+            })}
+          </div>
         </div>
 
         {/* Right: Back to top button */}
@@ -53,6 +81,7 @@ export default function Footer() {
           <span>Back to Top</span>
           <span>↑</span>
         </motion.button>
+
 
       </div>
     </footer>
