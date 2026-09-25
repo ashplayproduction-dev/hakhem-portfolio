@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* ── Abdul Hakhem R. Serad ("Hakhem") Portfolio – Design Engineering System ───────── */
+
+:root {
+  /* Deep Obsidian background & Crisp Editorial Foreground */
+  --background: #09090b; /* zinc-950 */
+  --foreground: #f4f4f5; /* zinc-100 */
+  --surface: #121215;
+  --surface-border: rgba(255, 255, 255, 0.08);
+
+  /* Emil Kowalski custom easing curves */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Selection styling ────────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(245, 158, 11, 0.25);
+  color: #ffffff;
+}
+
+input, textarea {
+  caret-color: #f59e0b;
+}
+
+/* ── Tactile Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Smooth scrolling ─────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Utility: Hide scrollbar but keep functionality ───────────────────── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ── Film Grain Overlay ───────────────────────────────────────────────── */
+/* Subtle noise texture applied globally via ::after pseudo on body.      */
+/* Opacity 0.025 keeps it invisible unless you look for it.               */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 196px 196px;
+  background-repeat: repeat;
+}
+
+/* ── Cinematic Motion Tokens ─────────────────────────────────────────── */
+:root {
+  --duration-fast: 160ms;
+  --duration-base: 400ms;
+  --duration-slow: 700ms;
+  --duration-cinematic: 1000ms;
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Clip-path text reveal utility ───────────────────────────────────── */
+.text-reveal {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--duration-slow) var(--ease-cinematic);
+}
+.text-reveal.in-view {
+  clip-path: inset(0 0% 0 0);
+}
+
+/* ── Letterbox bars for cinematic framing (opt-in) ──────────────────── */
+.letterbox::before,
+.letterbox::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(12px, 2.5vh, 24px);
+  background: #000;
+  z-index: 20;
+  pointer-events: none;
+}
+.letterbox::before { top: 0; }
+.letterbox::after  { bottom: 0; }
+
+/* ── Scroll-driven fade utility ──────────────────────────────────────── */
+.scroll-fade {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity var(--duration-base) var(--ease-cinematic),
+    transform var(--duration-base) var(--ease-cinematic);
+}
+.scroll-fade.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
