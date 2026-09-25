@@ -78,19 +78,20 @@ export default function HeroContent() {
       {/* ── CTA buttons & Social Quick Icons ─────────────────────── */}
       <motion.div variants={up} className="flex flex-wrap items-center gap-3">
         <a
-          href="#experience"
-          className="inline-flex items-center gap-2 rounded-full bg-amber-400 hover:bg-amber-300 text-amber-950 px-5 py-2.5 text-sm font-bold tracking-wide transition-all duration-150 active:scale-[0.97] shadow-md shadow-amber-900/30 select-none"
+          href="#services"
+          className="inline-flex items-center gap-2 rounded-full bg-amber-400 hover:bg-amber-300 text-amber-950 px-5 py-2.5 text-sm font-bold tracking-wide transition-all duration-150 active:scale-[0.97] shadow-md shadow-amber-900/30 select-none cursor-pointer"
         >
           <span>View Works</span>
           <ArrowRightIcon size={14} />
         </a>
         <a
-          href="#about"
-          className="inline-flex items-center gap-2 rounded-full border border-neutral-800 hover:border-neutral-700 bg-neutral-950/60 hover:bg-neutral-800/70 px-5 py-2.5 text-sm font-semibold text-neutral-300 transition-all duration-150 active:scale-[0.97] select-none"
+          href="#experience"
+          className="inline-flex items-center gap-2 rounded-full border border-neutral-800 hover:border-neutral-700 bg-neutral-950/60 hover:bg-neutral-800/70 px-5 py-2.5 text-sm font-semibold text-neutral-300 transition-all duration-150 active:scale-[0.97] select-none cursor-pointer"
         >
           <TrophyIcon size={14} className="text-amber-400" />
           <span>Track Record</span>
         </a>
+
 
         {/* Quick Socials (Direct links) */}
         <div className="flex items-center gap-2 sm:ml-1">
