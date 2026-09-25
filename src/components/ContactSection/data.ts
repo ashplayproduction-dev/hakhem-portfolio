@@ -30,28 +30,29 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     id: "facebook",
     name: "Facebook",
-    handle: "Abdul Hakhem Serad",
-    url: "https://facebook.com",
+    handle: "Hackyserad.14",
+    url: "https://www.facebook.com/Hackyserad.14",
     description: "Personal & direct messaging",
     color: "hover:text-[#1877F2] hover:border-[#1877F2]/40",
   },
   {
     id: "instagram",
     name: "Instagram",
-    handle: "@hakhem",
-    url: "https://instagram.com",
+    handle: "@ahserad",
+    url: "https://www.instagram.com/ahserad/",
     description: "Behind the scenes & visual work",
     color: "hover:text-[#E4405F] hover:border-[#E4405F]/40",
   },
   {
     id: "linkedin",
     name: "LinkedIn",
-    handle: "Abdul Hakhem R. Serad",
-    url: "https://linkedin.com",
+    handle: "Abdul Hakhem Serad",
+    url: "https://www.linkedin.com/in/abdul-hakhem-serad-8612902a7/",
     description: "Professional background & inquiries",
     color: "hover:text-[#0A66C2] hover:border-[#0A66C2]/40",
   },
 ];
+
 
 export interface BadgeGroup {
   groupId: string;
