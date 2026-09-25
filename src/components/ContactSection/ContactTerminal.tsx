@@ -120,21 +120,18 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
     setSubmitError(null);
 
     try {
+      const formData = new FormData();
+      formData.append("access_key", "28070792-2986-4f36-95ee-7e8e7dbd57fc");
+      formData.append("name", name.trim());
+      formData.append("email", email.trim());
+      formData.append("inquiry_type", inquiryType);
+      formData.append("subject", `New Portfolio Inquiry [${inquiryType}] from ${name.trim()}`);
+      formData.append("from_name", `${name.trim()} via Hakhem Portfolio`);
+      formData.append("message", details.trim());
+
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: "28070792-2986-4f36-95ee-7e8e7dbd57fc",
-          name: name.trim(),
-          email: email.trim(),
-          inquiry_type: inquiryType,
-          message: details.trim(),
-          subject: `Portfolio Inquiry: [${inquiryType}] from ${name.trim()}`,
-          from_name: `${name.trim()} via Hakhem Portfolio`,
-        }),
+        body: formData,
       });
 
       const data = await response.json();
@@ -339,6 +336,7 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
                       <input
                         ref={nameRef}
                         id="ct-name"
+                        name="name"
                         type="text"
                         value={name}
                         onChange={(e) => {
@@ -368,6 +366,7 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
                       </label>
                       <input
                         id="ct-email"
+                        name="email"
                         type="email"
                         value={email}
                         onChange={(e) => {
@@ -397,6 +396,7 @@ export default function ContactTerminal({ isOpen, onClose }: ContactTerminalProp
                       </label>
                       <textarea
                         id="ct-details"
+                        name="message"
                         rows={3}
                         value={details}
                         onChange={(e) => {
