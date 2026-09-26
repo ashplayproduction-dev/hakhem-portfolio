@@ -18,8 +18,8 @@ export const SHORT_FORM_REELS: VideoShowcaseItem[] = [
     id: "short-1",
     title: "Short-Form Reel #1",
     badge: "Video Editing Service",
-    videoUrl: "https://youtube.com/shorts/wawJcgQh630?feature=share",
-    externalUrl: "https://youtube.com/shorts/wawJcgQh630?feature=share",
+    videoUrl: "https://youtube.com/shorts/hHaTj-WS4HU?feature=share",
+    externalUrl: "https://youtube.com/shorts/hHaTj-WS4HU?feature=share",
     aspectRatio: "9/16",
   },
   {
